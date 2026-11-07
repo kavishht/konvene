@@ -5,7 +5,11 @@ Built for the **K Explore: Web Designing** challenge. Konvene lets students brow
 **Live site:** _add your Vercel / Netlify / GitHub Pages link_
 **Repository:** _add your GitHub link_
 
+> **Data note:** the upcoming events are sample data (their dates move with today's date so registration can always be tested). The Past events tab lists real KIIT events.
+
 ## Features
+
+- Upcoming and Past tabs; past events are greyed out with registration closed
 
 - Hero section with a live countdown to the next event
 - Event cards showing name, date, venue, art, short description and seats left
