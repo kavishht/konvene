@@ -218,3 +218,10 @@ document.querySelectorAll("dialog").forEach((d) => {
 
 renderHero(); renderChips(); renderGrid(); updateCount(); tick();
 setInterval(tick, 1000);
+
+/* Ticker: two identical groups so the loop never shows a gap */
+(function () {
+  const words = ["Hackathons", "Concerts", "Workshops", "Sports", "Fests"];
+  const group = Array(3).fill(words).flat().map((w) => `<span>${w}</span>`).join("");
+  $("#tickerTrack").innerHTML = `<div class="tg">${group}</div><div class="tg">${group}</div>`;
+})();

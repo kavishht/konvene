@@ -223,6 +223,9 @@ h1 { letter-spacing: -.01em; }
 
 .ticker { background: var(--ink); color: var(--bg); overflow: hidden; white-space: nowrap; padding: .8rem 0; font: 800 1.1rem var(--display); }
 [data-theme="dark"] .ticker { background: var(--accent); color: var(--accent-ink); }
-.ticker-track { display: inline-flex; gap: 2.5rem; padding-right: 2.5rem; animation: slide 28s linear infinite; }
-.ticker-track span::after { content: "\2022"; margin-left: 2.5rem; color: var(--sun); }
+.ticker-track { display: flex; width: max-content; animation: slide 30s linear infinite; }
+.tg { display: flex; gap: 2.5rem; padding-right: 2.5rem; flex-shrink: 0; }
+
 @keyframes slide { to { transform: translateX(-50%); } }
+
+.tg span::after { content: "\2022"; margin-left: 2.5rem; color: var(--sun); }
