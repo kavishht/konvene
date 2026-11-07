@@ -221,11 +221,20 @@ h1 { letter-spacing: -.01em; }
 .b2 { width: 54px; height: 54px; left: 4%; bottom: 8%; background: var(--mint); animation-delay: -3s; }
 @keyframes float { 50% { transform: translateY(-18px) rotate(8deg); } }
 
+/* Ticker */
 .ticker { background: var(--ink); color: var(--bg); overflow: hidden; white-space: nowrap; padding: .8rem 0; font: 800 1.1rem var(--display); }
 [data-theme="dark"] .ticker { background: var(--accent); color: var(--accent-ink); }
 .ticker-track { display: flex; width: max-content; animation: slide 30s linear infinite; }
 .tg { display: flex; gap: 2.5rem; padding-right: 2.5rem; flex-shrink: 0; }
-
+.tg span::after { content: "\2022"; margin-left: 2.5rem; color: var(--sun); }
 @keyframes slide { to { transform: translateX(-50%); } }
 
-.tg span::after { content: "\2022"; margin-left: 2.5rem; color: var(--sun); }
+/* Upcoming / Past toggle */
+.seg { display: inline-flex; background: var(--surface-2); border-radius: var(--r-pill); padding: 4px; justify-self: start; }
+.seg-btn { font: 700 .95rem var(--body); border: 0; background: none; color: var(--muted); padding: .5rem 1.2rem; border-radius: var(--r-pill); cursor: pointer; transition: all .2s; }
+.seg-btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.card.past .art { filter: grayscale(.85); }
+.ended, .card.past .go { color: var(--muted); }
+
+/* Business category art */
+.cat-business { background: radial-gradient(circle at 80% 20%, rgba(255,255,255,.25) 0 12%, transparent 13%), linear-gradient(135deg, #e8a317, #8a4b08); }
