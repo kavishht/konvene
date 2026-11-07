@@ -1,31 +1,53 @@
 /* Konvene: event data, rendering, filters, countdowns, validation, localStorage. */
 "use strict";
 
+const soon = (days, h, m = 0) => {
+  const d = new Date(); d.setDate(d.getDate() + days);
+  const p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(h)}:${p(m)}`;
+};
+
 const EVENTS = [
-  { id: "hack-nov", name: "48 Hour Hackathon", cat: "Tech", date: "2026-11-21T09:00", venue: "Innovation Lab, Block C", seats: 120, featured: true,
-    desc: "Build a working prototype in 48 hours with mentors from industry. Teams of up to four." },
-  { id: "ml-workshop", name: "Intro to Machine Learning Workshop", cat: "Workshop", date: "2026-11-14T14:00", venue: "Seminar Hall 2", seats: 60,
-    desc: "Hands-on session training your first classifier in Python. Bring a laptop." },
-  { id: "unplugged", name: "Campus Unplugged Night", cat: "Music", date: "2026-11-28T18:30", venue: "Open Air Theatre", seats: 400, featured: true,
-    desc: "Acoustic sets from student bands and one surprise headliner. Gates open at 6." },
-  { id: "inter-cricket", name: "Inter-Hostel Cricket Cup", cat: "Sports", date: "2026-11-09T07:30", venue: "Main Ground", seats: 200,
+  /* Sample upcoming events (dates move with today's date) */
+  { id: "inter-cricket", name: "Inter-Hostel Cricket Cup", cat: "Sports", date: soon(2, 7, 30), venue: "Main Ground", seats: 200,
     desc: "T20 knockout between hostels. Register as a spectator or a player." },
-  { id: "rangmanch", name: "Rangmanch Street Play Festival", cat: "Cultural", date: "2026-12-05T16:00", venue: "Central Plaza", seats: 250,
+  { id: "ml-workshop", name: "Intro to Machine Learning Workshop", cat: "Workshop", date: soon(7, 14), venue: "Seminar Hall 2", seats: 60,
+    desc: "Hands-on session training your first classifier in Python. Bring a laptop." },
+  { id: "hack-nov", name: "48 Hour Hackathon", cat: "Tech", date: soon(14, 9), venue: "Innovation Lab, Block C", seats: 120, featured: true,
+    desc: "Build a working prototype in 48 hours with mentors from industry. Teams of up to four." },
+  { id: "unplugged", name: "Campus Unplugged Night", cat: "Music", date: soon(21, 18, 30), venue: "Open Air Theatre", seats: 400, featured: true,
+    desc: "Acoustic sets from student bands and one surprise headliner. Gates open at 6." },
+  { id: "rangmanch", name: "Rangmanch Street Play Festival", cat: "Cultural", date: soon(28, 16), venue: "Central Plaza", seats: 250,
     desc: "Twelve teams, one theme, thirty minutes each. Vote for your favourite on the day." },
-  { id: "design-sprint", name: "UI/UX Design Sprint", cat: "Workshop", date: "2026-12-12T10:00", venue: "Design Studio, Block A", seats: 40,
+  { id: "design-sprint", name: "UI/UX Design Sprint", cat: "Workshop", date: soon(35, 10), venue: "Design Studio, Block A", seats: 40,
     desc: "Go from a problem statement to a clickable prototype in one day." },
-  { id: "cp-contest", name: "Code Clash: Competitive Programming", cat: "Tech", date: "2026-12-19T11:00", venue: "Computer Centre", seats: 150,
+  { id: "cp-contest", name: "Code Clash: Competitive Programming", cat: "Tech", date: soon(42, 11), venue: "Computer Centre", seats: 150,
     desc: "Three hours, eight problems, one leaderboard. Solo participation only." },
-  { id: "beat-lab", name: "Beat Lab: Produce a Track in 3 Hours", cat: "Music", date: "2027-01-10T15:00", venue: "Media Room", seats: 30,
+  { id: "beat-lab", name: "Beat Lab: Produce a Track in 3 Hours", cat: "Music", date: soon(56, 15), venue: "Media Room", seats: 30,
     desc: "Learn sampling and arrangement, then finish a short beat to share with the room." },
-  { id: "winter-fest", name: "Winter Fest Cultural Evening", cat: "Cultural", date: "2027-01-24T17:30", venue: "Auditorium", seats: 500, featured: true,
-    desc: "Dance, poetry and stand-up wrapped into one evening, with food stalls outside." }
+  { id: "winter-fest", name: "Winter Fest Cultural Evening", cat: "Cultural", date: soon(70, 17, 30), venue: "Auditorium", seats: 500, featured: true,
+    desc: "Dance, poetry and stand-up wrapped into one evening, with food stalls outside." },
+
+  /* Real past KIIT events */
+  { id: "omega-hacquire", name: "Hacquire (Omega 6.0)", cat: "Tech", date: "2026-08-22T09:00", venue: "Campus 25", seats: 200,
+    desc: "Hackathon by FED KIIT where teams build, bid and ship a product or feature, mixing tech with entrepreneurial thinking." },
+  { id: "omega-fpl", name: "FED Premier League (Omega 6.0)", cat: "Business", date: "2026-08-23T09:00", venue: "Campus 25", seats: 200,
+    desc: "An IPL style auction game where teams bid strategically and build their dream squad from scratch." },
+  { id: "omega-show", name: "The FEDpreneur Show (Omega 6.0)", cat: "Business", date: "2026-08-23T16:00", venue: "Campus 6", seats: 500, featured: true,
+    desc: "Pitches, entrepreneurship and entertainment, closing Omega 6.0 with a show by comedian Rajat Sood." },
+  { id: "darted-pixels", name: "Darted Pixels", cat: "Workshop", date: "2026-10-10T10:00", venue: "KIIT University", seats: 100,
+    desc: "GDG on Campus KIIT workshop on Dart and Flutter. Modify a Flappy Bird game to learn game logic, collisions, scoring and UI. Free registration." },
+  { id: "hauntfest", name: "Hauntfest Halloween: The Last Saturday", cat: "Cultural", date: "2026-10-31T16:00", venue: "Campus 6 Auditorium", seats: 400, featured: true,
+    desc: "KIIT International Student's Society party of horror, fun and music, with awards for best dressed. Colour code: red, white, black." },
+  { id: "kiit-karnival", name: "KIIT Karnival (KIIT Fest 9.0)", cat: "Cultural", date: "2026-03-06T17:00", venue: "Karnival area, Campus 13 entry", seats: 1000,
+    desc: "Two days (6 and 7 March) of funfair, food and cultural nights, with 80+ tech and non-tech events. Fee: ₹250 internal, ₹400 external." }
 ];
-const CATS = ["All", "Tech", "Workshop", "Music", "Sports", "Cultural"];
+const CATS = ["All", "Tech", "Workshop", "Business", "Cultural", "Music", "Sports"];
 const KEY = "konvene-registrations";
 
 const $ = (s) => document.querySelector(s);
-const state = { cat: "All", q: "", current: null };
+const state = { cat: "All", q: "", when: "upcoming", current: null };
+const isPast = (e) => new Date(e.date) <= new Date();
 
 /* ---------- storage ---------- */
 const store = {
@@ -74,12 +96,14 @@ function renderChips() {
 }
 function renderGrid() {
   const q = state.q.trim().toLowerCase();
-  const list = EVENTS.filter((e) => (state.cat === "All" || e.cat === state.cat) &&
+  $("#listTitle").textContent = state.when === "past" ? "Past events" : "Upcoming events";
+  const list = EVENTS.filter((e) => (state.when === "past" ? isPast(e) : !isPast(e)) &&
+    (state.cat === "All" || e.cat === state.cat) &&
     (!q || [e.name, e.venue, e.desc, e.cat].join(" ").toLowerCase().includes(q)))
     .sort((a, b) => new Date(a.date) - new Date(b.date));
   $("#grid").innerHTML = list.map((e) => {
-    const n = left(e);
-    return `<button class="card" type="button" data-id="${e.id}" aria-label="${esc(e.name)}, view details">
+    const n = left(e), past = isPast(e);
+    return `<button class="card${past ? " past" : ""}" type="button" data-id="${e.id}" aria-label="${esc(e.name)}, view details">
       <div class="art ${slug(e.cat)}">
         ${e.featured ? '<span class="feat">Featured</span>' : ""}
         <div class="date">${day(e.date)}<small>${mon(e.date)}</small></div>
@@ -90,7 +114,7 @@ function renderGrid() {
         <p class="venue">${esc(e.venue)}</p>
         <p class="desc">${esc(e.desc)}</p>
         <div class="card-foot">
-          <span class="seats ${n < 15 ? "low" : ""}">${n ? n + " seats left" : "Fully booked"}</span>
+          ${past ? '<span class="ended">Ended</span>' : `<span class="seats ${n < 15 ? "low" : ""}">${n ? n + " seats left" : "Fully booked"}</span>`}
           <span class="go">View details</span>
         </div>
       </div></button>`;
@@ -108,15 +132,15 @@ function openEvent(id) {
   $("#dTag").textContent = ev.cat;
   $("#dTitle").textContent = ev.name;
   $("#dDesc").textContent = ev.desc;
-  $("#dFacts").innerHTML = `<li><b>Date:</b> ${fmtDate(ev.date)}</li><li><b>Time:</b> ${fmtTime(ev.date)}</li><li><b>Venue:</b> ${esc(ev.venue)}</li><li><b>Seats left:</b> ${left(ev)} of ${ev.seats}</li>`;
+  $("#dFacts").innerHTML = `<li><b>Date:</b> ${fmtDate(ev.date)}</li><li><b>Time:</b> ${fmtTime(ev.date)}</li><li><b>Venue:</b> ${esc(ev.venue)}</li>${isPast(ev) ? "" : `<li><b>Seats left:</b> ${left(ev)} of ${ev.seats}</li>`}`;
   $("#fEvent").innerHTML = '<option value="">Select an event</option>' +
     EVENTS.map((e) => `<option value="${e.id}">${esc(e.name)}</option>`).join("");
   $("#fEvent").value = ev.id;
   resetForm();
   $("#dTimer").innerHTML = timerHTML(ev.date);
-  const full = left(ev) === 0;
-  $("#submitBtn").disabled = full;
-  $("#submitBtn").textContent = full ? "This event is fully booked" : "Register for this event";
+  const closed = isPast(ev) || left(ev) === 0;
+  $("#submitBtn").disabled = closed;
+  $("#submitBtn").textContent = isPast(ev) ? "This event has ended" : left(ev) === 0 ? "This event is fully booked" : "Register for this event";
   if (!$("#eventDialog").open) $("#eventDialog").showModal();
 }
 function resetForm() {
@@ -172,7 +196,7 @@ $("#regForm").addEventListener("submit", (e) => {
   store.save([...store.all(), reg]);
 
   $("#regForm").hidden = true;
-  $("#successMsg").textContent = `${reg.name}, your seat for ${ev.name} on ${fmtDate(ev.date)} is reserved. A confirmation was saved to ${reg.email}.`;
+  $("#successMsg").textContent = `${reg.name}, your seat for ${ev.name} on ${fmtDate(ev.date)} is reserved. Keep your reference ID handy and find this booking under My registrations.`;
   $("#successRef").textContent = "Reference " + reg.ref;
   $("#success").hidden = false;
   $("#success").focus();
@@ -214,6 +238,13 @@ $("#regList").addEventListener("click", (e) => { const r = e.target.closest("[da
   store.save(store.all().filter((x) => x.ref !== r.dataset.cancel)); renderRegs(); renderGrid(); updateCount(); toast("Registration cancelled."); });
 document.querySelectorAll("dialog").forEach((d) => {
   d.addEventListener("click", (e) => { if (e.target === d || e.target.closest("[data-close]")) d.close(); });
+});
+
+$("#seg").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-when]"); if (!b) return;
+  state.when = b.dataset.when;
+  document.querySelectorAll(".seg-btn").forEach((x) => x.setAttribute("aria-pressed", x === b));
+  renderGrid();
 });
 
 renderHero(); renderChips(); renderGrid(); updateCount(); tick();
