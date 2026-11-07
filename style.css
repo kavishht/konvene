@@ -45,6 +45,7 @@ h3 { font-size: 1.25rem; font-weight: 800; }
 p { margin: 0; }
 a { color: inherit; }
 .wrap { width: min(1160px, 100% - 2rem); margin-inline: auto; }
+[hidden] { display: none !important; }
 .muted { color: var(--muted); }
 .nowrap { white-space: nowrap; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
