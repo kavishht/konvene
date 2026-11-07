@@ -202,3 +202,27 @@ dialog::backdrop { background: rgba(8, 12, 28, .6); backdrop-filter: blur(3px); 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Livelier hero */
+h1 { letter-spacing: -.01em; }
+.hero {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(600px 400px at 8% 10%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 70%),
+    radial-gradient(500px 380px at 95% 90%, color-mix(in srgb, var(--sun) 30%, transparent), transparent 70%);
+}
+.hero .wrap { position: relative; z-index: 1; }
+.grad {
+  background: linear-gradient(90deg, var(--accent), #e23d7a 55%, var(--sun));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.blob { position: absolute; border-radius: 50%; opacity: .55; animation: float 7s ease-in-out infinite; }
+.b1 { width: 90px; height: 90px; left: 46%; top: 10%; background: var(--sun); }
+.b2 { width: 54px; height: 54px; left: 4%; bottom: 8%; background: var(--mint); animation-delay: -3s; }
+@keyframes float { 50% { transform: translateY(-18px) rotate(8deg); } }
+
+.ticker { background: var(--ink); color: var(--bg); overflow: hidden; white-space: nowrap; padding: .8rem 0; font: 800 1.1rem var(--display); }
+[data-theme="dark"] .ticker { background: var(--accent); color: var(--accent-ink); }
+.ticker-track { display: inline-flex; gap: 2.5rem; padding-right: 2.5rem; animation: slide 28s linear infinite; }
+.ticker-track span::after { content: "\2022"; margin-left: 2.5rem; color: var(--sun); }
+@keyframes slide { to { transform: translateX(-50%); } }
