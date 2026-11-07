@@ -29,17 +29,17 @@ const EVENTS = [
     desc: "Dance, poetry and stand-up wrapped into one evening, with food stalls outside." },
 
   /* Real past KIIT events */
-  { id: "omega-hacquire", name: "Hacquire (Omega 6.0)", cat: "Tech", date: "2026-08-22T09:00", venue: "Campus 25", seats: 200,
+  { id: "omega-hacquire", img: "images/omega.jpg", name: "Hacquire (Omega 6.0)", cat: "Tech", date: "2026-08-22T09:00", venue: "Campus 25", seats: 200,
     desc: "Hackathon by FED KIIT where teams build, bid and ship a product or feature, mixing tech with entrepreneurial thinking." },
-  { id: "omega-fpl", name: "FED Premier League (Omega 6.0)", cat: "Business", date: "2026-08-23T09:00", venue: "Campus 25", seats: 200,
+  { id: "omega-fpl", img: "images/omega.jpg", name: "FED Premier League (Omega 6.0)", cat: "Business", date: "2026-08-23T09:00", venue: "Campus 25", seats: 200,
     desc: "An IPL style auction game where teams bid strategically and build their dream squad from scratch." },
-  { id: "omega-show", name: "The FEDpreneur Show (Omega 6.0)", cat: "Business", date: "2026-08-23T16:00", venue: "Campus 6", seats: 500, featured: true,
+  { id: "omega-show", img: "images/omega.jpg", name: "The FEDpreneur Show (Omega 6.0)", cat: "Business", date: "2026-08-23T16:00", venue: "Campus 6", seats: 500, featured: true,
     desc: "Pitches, entrepreneurship and entertainment, closing Omega 6.0 with a show by comedian Rajat Sood." },
-  { id: "darted-pixels", name: "Darted Pixels", cat: "Workshop", date: "2026-10-10T10:00", venue: "KIIT University", seats: 100,
+  { id: "darted-pixels", img: "images/darted-pixels.jpg", name: "Darted Pixels", cat: "Workshop", date: "2026-10-10T10:00", venue: "KIIT University", seats: 100,
     desc: "GDG on Campus KIIT workshop on Dart and Flutter. Modify a Flappy Bird game to learn game logic, collisions, scoring and UI. Free registration." },
-  { id: "hauntfest", name: "Hauntfest Halloween: The Last Saturday", cat: "Cultural", date: "2026-10-31T16:00", venue: "Campus 6 Auditorium", seats: 400, featured: true,
+  { id: "hauntfest", img: "images/hauntfest.jpg", pos: "50% 38%", name: "Hauntfest Halloween: The Last Saturday", cat: "Cultural", date: "2026-10-31T16:00", venue: "Campus 6 Auditorium", seats: 400, featured: true,
     desc: "KIIT International Student's Society party of horror, fun and music, with awards for best dressed. Colour code: red, white, black." },
-  { id: "kiit-karnival", name: "KIIT Karnival (KIIT Fest 9.0)", cat: "Cultural", date: "2026-03-06T17:00", venue: "Karnival area, Campus 13 entry", seats: 1000,
+  { id: "kiit-karnival", img: "images/karnival.jpg", pos: "50% 40%", name: "KIIT Karnival (KIIT Fest 9.0)", cat: "Cultural", date: "2026-03-06T17:00", venue: "Karnival area, Campus 13 entry", seats: 1000,
     desc: "Two days (6 and 7 March) of funfair, food and cultural nights, with 80+ tech and non-tech events. Fee: ₹250 internal, ₹400 external." }
 ];
 const CATS = ["All", "Tech", "Workshop", "Business", "Cultural", "Music", "Sports"];
@@ -70,7 +70,7 @@ const upcoming = () => EVENTS.filter((e) => new Date(e.date) > new Date()).sort(
 /* ---------- countdown ---------- */
 function timerHTML(date) {
   let ms = new Date(date) - new Date();
-  if (ms <= 0) return '<div class="live">This event has started</div>';
+  if (ms <= 0) return '<div class="live">This event has already taken place</div>';
   const s = Math.floor(ms / 1000);
   const parts = [["Days", Math.floor(s / 86400)], ["Hours", Math.floor(s % 86400 / 3600)], ["Mins", Math.floor(s % 3600 / 60)], ["Secs", s % 60]];
   return parts.map(([l, v]) => `<div><b>${String(v).padStart(2, "0")}</b><span>${l}</span></div>`).join("");
@@ -104,7 +104,8 @@ function renderGrid() {
   $("#grid").innerHTML = list.map((e) => {
     const n = left(e), past = isPast(e);
     return `<button class="card${past ? " past" : ""}" type="button" data-id="${e.id}" aria-label="${esc(e.name)}, view details">
-      <div class="art ${slug(e.cat)}">
+      <div class="art ${slug(e.cat)}${e.img ? " has-img" : ""}">
+        ${e.img ? `<img src="${e.img}" alt="${esc(e.name)} poster" loading="lazy" style="object-position:${e.pos || "50% 50%"}">` : ""}
         ${e.featured ? '<span class="feat">Featured</span>' : ""}
         <div class="date">${day(e.date)}<small>${mon(e.date)}</small></div>
       </div>
@@ -128,7 +129,8 @@ function openEvent(id) {
   const ev = find(id);
   if (!ev) return;
   state.current = ev;
-  $("#dArt").className = "d-art " + slug(ev.cat);
+  $("#dArt").className = "d-art " + slug(ev.cat) + (ev.img ? " has-img" : "");
+  $("#dArt").innerHTML = ev.img ? `<img src="${ev.img}" alt="${esc(ev.name)} poster">` : "";
   $("#dTag").textContent = ev.cat;
   $("#dTitle").textContent = ev.name;
   $("#dDesc").textContent = ev.desc;
